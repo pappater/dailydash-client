@@ -1,11 +1,10 @@
 import React from 'react';
-import './index.css'; // Import Tailwind CSS
-import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Dashboard />
+    <div className="App bg-white text-black min-h-screen">
+      <Login />
     </div>
   );
 };

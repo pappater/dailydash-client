@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# dailydash-client
-=======
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -51,4 +48,3 @@ export default tseslint.config({
   },
 })
 ```
->>>>>>> Initial project structure setup with React, TypeScript, Tailwind CSS, and Vite
