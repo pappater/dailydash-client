@@ -1,28 +1,57 @@
-import { useEffect, useState } from 'react';
-
-interface User {
-  displayName: string;
-  emails: { value: string }[];
-}
+import { useEffect } from "react";
+import useStore from "../store/store";
+import {
+  fetchUserData,
+  fetchUserDataFromDB,
+  saveUserDataToDB,
+} from "../services/api";
 
 function Dashboard() {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, text, setUser, setText } = useStore();
+
+  const handleInputChange = (event) => {
+    setText(event.target.value);
+  };
 
   useEffect(() => {
-    fetch('/api/auth/user', {
-      credentials: 'include',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message !== 'Not authenticated') {
+    const fetchUser = async () => {
+      try {
+        const data = await fetchUserData();
+        if (data.message !== "Not authenticated") {
           setUser(data);
         } else {
           // Redirect to login if not authenticated
-          window.location.href = '/';
+          window.location.href = "/";
         }
-      })
-      .catch((error) => console.error('Error fetching user:', error));
-  }, []);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [setUser]);
+
+  useEffect(() => {
+    if (user?.id) {
+      const fetchData = async () => {
+        try {
+          const data = await fetchUserDataFromDB(user.id);
+          setText(data.savedData);
+        } catch (error) {
+          console.error("Failed to fetch data from DB");
+        }
+      };
+      fetchData();
+    }
+  }, [user?.id, setText]);
+
+  const saveDataToDB = async () => {
+    try {
+      await saveUserDataToDB(user?.id, text);
+    } catch (error) {
+      console.error("Failed to save data to DB");
+    }
+  };
 
   return (
     <div>
@@ -31,7 +60,19 @@ function Dashboard() {
         <div>
           <p>Name: {user.displayName}</p>
           <p>Email: {user.emails[0].value}</p>
-          <button onClick={() => window.location.href = 'http://localhost:5001/api/auth/logout'}>
+
+          <input
+            type="text"
+            placeholder="Enter some text"
+            value={text}
+            onChange={handleInputChange}
+          />
+          <button onClick={saveDataToDB}>Save Data</button>
+          <button
+            onClick={() =>
+              (window.location.href = "http://localhost:5001/api/auth/logout")
+            }
+          >
             Logout
           </button>
         </div>
