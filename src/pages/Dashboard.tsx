@@ -5,6 +5,7 @@ import {
   fetchUserDataFromDB,
   saveUserDataToDB,
 } from "../services/api";
+import WeatherReport from "../components/WetherReport";
 
 function Dashboard() {
   const { user, text, setUser, setText } = useStore();
@@ -67,6 +68,7 @@ function Dashboard() {
             value={text}
             onChange={handleInputChange}
           />
+          <WeatherReport />
           <button onClick={saveDataToDB}>Save Data</button>
           <button
             onClick={() =>

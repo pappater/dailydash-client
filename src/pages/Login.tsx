@@ -1,5 +1,8 @@
+// Login.tsx
+
 import React from "react";
 import useStore from "../store/store";
+import QuoteDisplay from "../components/QuoteDisplay"; // Adjust the path if needed
 
 const Login: React.FC = () => {
   const { isDarkMode } = useStore();
@@ -10,23 +13,22 @@ const Login: React.FC = () => {
 
   return (
     <div
-      className={`flex min-h-screen ${
-        isDarkMode ? "bg-gray-900" : "bg-gray-50"
-      }`}
+      className={`flex min-h-screen min-w-screen ${
+        isDarkMode ? "bg-dark" : "bg-gray-50"
+      } overflow-hidden`}
     >
-      {/* Left Side - Image */}
+      {/* Left Side - Image and Quote */}
       <div
-        className={`w-1/2 bg-cover bg-center ${
-          isDarkMode ? "bg-gray-800" : "bg-gray-200"
+        className={`w-1/2 h-screen flex items-center justify-center ${
+          isDarkMode ? "bg-dark" : "bg-gray-200"
         }`}
-        style={{ backgroundImage: 'url("/path-to-your-image.jpg")' }}
       >
-        {/* You can add more content here if needed */}
+        <QuoteDisplay />
       </div>
 
       {/* Right Side - Sign In Section */}
       <div
-        className={`w-1/2 flex flex-col items-center justify-center p-4 ${
+        className={`w-1/2 h-screen flex flex-col items-center justify-center p-4 ${
           isDarkMode ? "bg-gray-800" : "bg-gray-100"
         }`}
       >
@@ -47,12 +49,6 @@ const Login: React.FC = () => {
         >
           <span className="text-sm font-medium">Sign in with Google</span>
         </button>
-        {/* <button
-          onClick={toggleDarkMode}
-          className="mt-4 text-sm text-gray-600 dark:text-gray-300"
-        >
-          Toggle Dark Mode
-        </button> */}
       </div>
     </div>
   );
