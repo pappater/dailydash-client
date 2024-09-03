@@ -2,8 +2,9 @@ import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
-// src/services/api.ts
+// Constants
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const GOLD_API_KEY = import.meta.env.VITE_GOLD_API;
 
 // Create an instance of axios
 const api = axios.create({
@@ -109,6 +110,23 @@ export const saveUserDataToDB = async (userId: string, savedData: string) => {
   } catch (error) {
     console.error("Error saving data to DB:", error);
     throw error;
+  }
+};
+
+// Fetch the gold rate in INR
+export const fetchGoldRate = async (): Promise<number> => {
+  try {
+    const response = await axios.get("https://www.goldapi.io/api/XAU/INR", {
+      headers: {
+        "x-access-token": GOLD_API_KEY,
+        "Content-Type": "application/json",
+      },
+    });
+    // Assuming the API returns data in a format like { price: number }
+    return response.data; // Adjust based on the actual response structure
+  } catch (error) {
+    console.error("Error fetching gold rate:", error);
+    throw error; // Re-throw the error to handle it in the component
   }
 };
 
