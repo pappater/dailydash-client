@@ -2,6 +2,9 @@ import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
+// src/services/api.ts
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
 // Create an instance of axios
 const api = axios.create({
   baseURL: "/api",
@@ -31,6 +34,47 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Fetch weather data by coordinates
+export const fetchWeatherByCoords = async (lat: number, lon: number) => {
+  try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather`,
+      {
+        params: {
+          lat,
+          lon,
+          appid: API_KEY,
+          units: "metric", // Use 'imperial' for Fahrenheit
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching weather by coordinates:", error);
+    throw error;
+  }
+};
+
+// Fetch weather data by location name
+export const fetchWeatherByLocation = async (location: string) => {
+  try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather`,
+      {
+        params: {
+          q: location,
+          appid: API_KEY,
+          units: "metric", // Use 'imperial' for Fahrenheit
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching weather by location:", error);
+    throw error;
+  }
+};
 
 // Fetch user data from the auth endpoint
 export const fetchUserData = async () => {
