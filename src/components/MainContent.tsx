@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Greeting from "./Greeting";
 import Notes from "./Notes";
-import CalendarView from "./CalendarView";
+import CalendarView from "./calendar/CalendarView";
 import useStore from "../store/store";
 import { fetchUserDataFromDB, fetchWidgetConfig } from "../services/api";
 import AddWidgetModal from "./AddWidget";
@@ -50,13 +50,6 @@ const MainContent: React.FC = () => {
               ) : (
                 widget.type
               )}
-              <button
-                className="close-btn"
-                onClick={() => removeWidget(widget.id)}
-              >
-                x
-              </button>
-              <button className="options-btn">⋮</button>
             </Card>
           ))}
         </div>

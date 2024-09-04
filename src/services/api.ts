@@ -199,4 +199,21 @@ export const deleteCalendarEvent = async (
   }
 };
 
+export const updateCalendarEventCompletion = async (
+  googleId: string,
+  eventId: string,
+  completed: boolean
+) => {
+  try {
+    const response = await api.put(`/users/calendarEvents/${eventId}`, {
+      completed,
+      googleId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to update event completion status", error);
+    throw error;
+  }
+};
+
 export default api;
