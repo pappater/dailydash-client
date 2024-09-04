@@ -25,7 +25,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <div
-          className={`calendar-day relative cursor-pointer w-20 h-20 flex flex-col justify-start items-start p-1 border rounded-lg ${
+          className={`calendar-day relative cursor-pointer flex flex-col justify-start items-center p-2 border rounded-lg transition-all duration-150 ease-in-out ${
             isToday ? "bg-blue-200" : ""
           } ${
             isSameMonth(date, currentMonth)
@@ -36,12 +36,12 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
           }`}
           onClick={() => onDateClick(formattedDate)}
         >
-          <div className="font-semibold">{format(date, "d")}</div>
-          <div className="w-full flex flex-col overflow-hidden">
+          <div className="font-semibold text-center">{format(date, "d")}</div>
+          <div className="w-full flex flex-col overflow-hidden mt-1">
             {dayEvents.slice(0, 2).map((event) => (
               <div
                 key={event._id}
-                className={`event bg-blue-50 pl-1 rounded mb-1 text-xs text-left overflow-hidden truncate ${
+                className={`event bg-blue-50 p-1 rounded mb-1 text-xs text-left overflow-hidden truncate ${
                   event.completed ? "line-through text-gray-400" : ""
                 }`}
               >
@@ -51,44 +51,41 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
           </div>
         </div>
       </TooltipTrigger>
-      <TooltipContent>
-        <div className="text-sm">
+      <TooltipContent className="p-3 bg-white border border-gray-300 rounded-lg shadow-lg text-sm">
+        <div>
           {dayEvents.length > 0 ? (
             dayEvents.map((event) => (
               <div
                 key={event._id}
-                className="flex justify-between items-center mb-1"
+                className="flex justify-between items-center mb-2"
               >
                 <span
                   className={`${
-                    event.completed ? "line-through text-gray-400" : ""
+                    event.completed
+                      ? "line-through text-gray-400"
+                      : "text-gray-800"
                   }`}
                 >
                   {event.text}
                 </span>
-                <div className="flex items-center">
+                <div className="flex items-center space-x-2">
                   <button
                     onClick={() => onToggleComplete(event._id)}
-                    className="mr-2"
+                    className="text-green-500 hover:text-green-700"
                   >
-                    <Check
-                      size={16}
-                      className={`${
-                        event.completed ? "text-green-500" : "text-gray-500"
-                      }`}
-                    />
+                    <Check size={16} />
                   </button>
-                  <button onClick={() => onDeleteEvent(event._id)}>
-                    <Trash2
-                      size={16}
-                      className="text-red-500 hover:text-red-700"
-                    />
+                  <button
+                    onClick={() => onDeleteEvent(event._id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
               </div>
             ))
           ) : (
-            <p>No events</p>
+            <p className="text-gray-500">No events</p>
           )}
         </div>
       </TooltipContent>

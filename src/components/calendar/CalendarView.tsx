@@ -51,7 +51,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ googleId }) => {
         date: selectedDate,
         text: newEventText,
         completed: false,
-        _id: "",
       };
       setEvents([...events, newEvent]);
       setIsDialogOpen(false);

@@ -30,7 +30,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
           </DialogTitle>
           <Button
             variant="outline"
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 z-50 hover:text-gray-700"
             onClick={onClose}
           >
             <X size={16} />
