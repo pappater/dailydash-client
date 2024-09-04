@@ -156,4 +156,47 @@ export const saveWidgetConfig = async (googleId: string, widgetConfig: any) => {
   }
 };
 
+export const fetchCalendarEvents = async (googleId: string) => {
+  try {
+    const response = await api.get(`/users/calendarEvents/${googleId}`);
+    console.log("Fetched calendar events:", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching calendar events:", error);
+    throw error;
+  }
+};
+
+// Save calendar event to the server
+export const saveCalendarEvent = async (
+  googleId: string,
+  event: { date: string; text: string }
+) => {
+  try {
+    const response = await api.post("/users/calendarEvents", {
+      googleId,
+      event,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error saving calendar event:", error);
+    throw error;
+  }
+};
+
+export const deleteCalendarEvent = async (
+  googleId: string,
+  eventId: string
+) => {
+  try {
+    const response = await api.delete(
+      `/users/calendarEvents/${googleId}/${eventId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting calendar event:", error);
+    throw error;
+  }
+};
+
 export default api;

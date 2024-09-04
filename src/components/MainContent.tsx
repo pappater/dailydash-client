@@ -45,7 +45,11 @@ const MainContent: React.FC = () => {
         <div className="widgets-container">
           {widgets.map((widget) => (
             <Card key={widget.id} className="widget-card">
-              {widget.type === "calendar" ? <CalendarView /> : widget.type}
+              {widget.type === "calendar" ? (
+                <CalendarView googleId={user?.id ?? ""} />
+              ) : (
+                widget.type
+              )}
               <button
                 className="close-btn"
                 onClick={() => removeWidget(widget.id)}
@@ -70,7 +74,7 @@ const MainContent: React.FC = () => {
       </div>
 
       <button className="add-widget-btn" onClick={() => setShowModal(true)}>
-        Add Widget
+        Manage Widget
       </button>
 
       <AddWidgetModal

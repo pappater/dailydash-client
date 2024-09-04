@@ -12,7 +12,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="flex justify-between items-center p-4 bg-white relative">
-      <div className="text-2xl font-bold">D.</div>
+      <div className="text-2xl font-bold">DailyDash.</div>
       {user && (
         <DropdownMenu>
           <DropdownMenuTrigger>
