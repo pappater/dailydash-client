@@ -1,4 +1,11 @@
 import { create } from "zustand";
+import { saveWidgetConfig } from "@/services/api";
+
+interface User {
+  id: string;
+  displayName: string;
+  emails: { value: string }[];
+}
 
 interface StoreState {
   user: User | null;
@@ -8,11 +15,12 @@ interface StoreState {
   setUser: (user: User | null) => void;
   setText: (text: string) => void;
   setDarkMode: (isDarkMode: boolean) => void;
+  setWidgets: (widgets: { type: string; id: number }[]) => void;
   addWidget: (widgetType: string) => void;
   removeWidget: (id: number) => void;
 }
 
-const useStore = create<StoreState>((set) => ({
+const useStore = create<StoreState>((set, get) => ({
   user: null,
   text: "",
   isDarkMode: false,
@@ -20,20 +28,35 @@ const useStore = create<StoreState>((set) => ({
   setUser: (user) => set({ user }),
   setText: (text) => set({ text }),
   setDarkMode: (isDarkMode) => set({ isDarkMode }),
-  addWidget: (widgetType) =>
-    set((state) => ({
-      widgets: [...state.widgets, { type: widgetType, id: Date.now() }],
-    })),
-  removeWidget: (id) =>
-    set((state) => ({
-      widgets: state.widgets.filter((widget) => widget.id !== id),
-    })),
+  setWidgets: (widgets) => set({ widgets }),
+  addWidget: async (widgetType) => {
+    const { widgets, user } = get();
+    const updatedWidgets = [...widgets, { type: widgetType, id: Date.now() }];
+
+    set({ widgets: updatedWidgets });
+
+    if (user) {
+      try {
+        await saveWidgetConfig(user.id, { widgets: updatedWidgets });
+      } catch (error) {
+        console.error("Failed to save widget configuration", error);
+      }
+    }
+  },
+  removeWidget: async (id) => {
+    const { widgets, user } = get();
+    const updatedWidgets = widgets.filter((widget) => widget.id !== id);
+
+    set({ widgets: updatedWidgets });
+
+    if (user) {
+      try {
+        await saveWidgetConfig(user.id, { widgets: updatedWidgets });
+      } catch (error) {
+        console.error("Failed to save widget configuration", error);
+      }
+    }
+  },
 }));
 
 export default useStore;
-
-interface User {
-  id: string;
-  displayName: string;
-  emails: { value: string }[];
-}

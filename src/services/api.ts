@@ -130,4 +130,30 @@ export const fetchGoldRate = async (): Promise<number> => {
   }
 };
 
+// Fetch widget configuration from the server
+export const fetchWidgetConfig = async (googleId: string) => {
+  try {
+    const response = await api.get(`/users/widgetConfig/${googleId}`);
+    console.log("Fetched widget config:", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching widget configuration:", error);
+    throw error;
+  }
+};
+
+// Save widget configuration to the server
+export const saveWidgetConfig = async (googleId: string, widgetConfig: any) => {
+  try {
+    const response = await api.post("/users/widgetConfig", {
+      googleId,
+      widgetConfig,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error saving widget configuration:", error);
+    throw error;
+  }
+};
+
 export default api;
