@@ -47,35 +47,39 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className={`${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        className={`p-4 rounded-lg shadow-lg ${
+          isDarkMode
+            ? "bg-neutral-900 text-neutral-200"
+            : "bg-white text-neutral-900"
         }`}
       >
         <DialogHeader>
           <DialogTitle
             className={`text-lg font-bold ${
-              isDarkMode ? "text-white" : "text-black"
+              isDarkMode ? "text-neutral-200" : "text-neutral-900"
             }`}
           >
             Add Widget
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 mt-4">
           {widgetOptions.map((widgetType) => {
             const isAdded = widgets.some((w) => w.type === widgetType);
             return (
               <div
-                className="flex justify-between items-center"
+                className="flex justify-between items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                 key={widgetType}
               >
-                <span>
+                <span className="capitalize">
                   {widgetType.charAt(0).toUpperCase() + widgetType.slice(1)}
                 </span>
                 <Button
                   variant="outline"
-                  className={`${isAdded ? "text-red-500" : "text-green-500"} ${
-                    isDarkMode ? "border-gray-700" : "border-gray-300"
-                  }`}
+                  className={`border ${
+                    isAdded
+                      ? "text-red-500 border-red-500"
+                      : "text-green-500 border-green-500"
+                  } ${isDarkMode ? "dark:border-gray-700" : "border-gray-300"}`}
                   onClick={() =>
                     isAdded
                       ? handleRemoveWidget(widgetType)
@@ -89,7 +93,14 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({
           })}
         </div>
         <DialogFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button
+            onClick={onClose}
+            className={`mt-4 ${
+              isDarkMode ? "bg-gray-600 text-white" : "bg-black text-white"
+            }`}
+          >
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

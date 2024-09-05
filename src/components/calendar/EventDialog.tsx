@@ -28,7 +28,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
       <DialogContent
         className={`p-4 rounded-lg shadow-lg ${
           isDarkMode
-            ? "bg-gray-800 border-gray-700"
+            ? "bg-neutral-800 border-neutral-700"
             : "bg-white border-gray-300"
         }`}
       >
@@ -44,7 +44,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
             variant="outline"
             className={`z-50 ${
               isDarkMode
-                ? "text-gray-400 hover:text-gray-300"
+                ? "text-neutral-400 hover:text-neutral-300"
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={onClose}
@@ -59,15 +59,15 @@ const EventDialog: React.FC<EventDialogProps> = ({
               <div
                 key={event._id}
                 className={`p-2 rounded mb-2 text-sm flex justify-between items-center ${
-                  isDarkMode ? "bg-gray-700" : "bg-gray-100"
+                  isDarkMode ? "bg-neutral-700" : "bg-gray-100"
                 }`}
               >
                 <span
                   className={`${
                     event.completed
-                      ? "line-through text-gray-400"
+                      ? "line-through text-neutral-400"
                       : isDarkMode
-                      ? "text-gray-300"
+                      ? "text-neutral-300"
                       : "text-gray-800"
                   }`}
                 >
@@ -84,7 +84,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                         event.completed
                           ? "text-green-500"
                           : isDarkMode
-                          ? "text-gray-500"
+                          ? "text-neutral-500"
                           : "text-gray-500"
                       }`}
                     />
@@ -105,7 +105,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
           type="text"
           className={`border p-2 rounded-md w-full mb-4 ${
             isDarkMode
-              ? "bg-gray-900 text-white border-gray-600"
+              ? "bg-neutral-900 text-white border-neutral-600"
               : "bg-white border-gray-300"
           }`}
           value={newEventText}
@@ -114,7 +114,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
         />
         <Button
           className={`w-full ${
-            isDarkMode ? "bg-gray-600 text-white" : "bg-black text-white"
+            isDarkMode ? "bg-neutral-600 text-white" : "bg-black text-white"
           }`}
           onClick={handleSave}
         >

@@ -2,22 +2,33 @@ import React, { useEffect, useState } from "react";
 import useStore from "../store/store";
 import Header from "../components/Header";
 import MainContent from "../components/MainContent";
-import { fetchUserData } from "../services/api";
+import { fetchUserData, fetchUserDataFromDB } from "../services/api";
 
 const Dashboard: React.FC = () => {
-  const { setUser, user, isDarkMode, setDarkMode } = useStore();
+  const { setUser, user, setDashboardData, isDarkMode, setDarkMode } =
+    useStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await fetchUserData();
-        console.log("data", data);
-
-        if (data.message === "Not authenticated") {
+        const userData = await fetchUserData();
+        if (userData.message === "Not authenticated") {
           window.location.href = "/";
         } else {
-          setUser(data);
+          setUser(userData);
+
+          // Fetch and set dashboard data
+          if (userData.id) {
+            try {
+              const dashboardData = await fetchUserDataFromDB(userData.id);
+              setDashboardData(dashboardData);
+              setDarkMode(dashboardData?.darkMode);
+            } catch (error) {
+              console.error("Failed to fetch dashboard data:", error);
+            }
+          }
+
           setLoading(false);
         }
       } catch (error) {
@@ -29,7 +40,7 @@ const Dashboard: React.FC = () => {
     if (loading) {
       fetchUser();
     }
-  }, [loading, setUser]);
+  }, [loading, setUser, setDashboardData, setDarkMode]);
 
   if (loading) {
     return <div>Loading...</div>;

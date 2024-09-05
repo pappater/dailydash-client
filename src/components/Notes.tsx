@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { saveUserDataToDB, fetchUserDataFromDB } from "../services/api";
+import { saveUserDataToDB } from "../services/api";
 import useStore from "../store/store";
 
 interface NotesProps {
@@ -7,27 +7,20 @@ interface NotesProps {
 }
 
 const Notes: React.FC<NotesProps> = ({ userId }) => {
-  const { text, setText, isDarkMode } = useStore();
-  const [localText, setLocalText] = useState(text);
+  const { dashboardData, setText, isDarkMode } = useStore();
+  const [localText, setLocalText] = useState(dashboardData?.savedData || "");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchUserDataFromDB(userId);
-        setLocalText(data.savedData || ""); // Update local text with saved data
-        setText(data.savedData || ""); // Update global state with fetched data
-      } catch (error) {
-        console.error("Failed to fetch data from DB");
-      }
-    };
-
-    fetchData();
-  }, [userId, setText]);
+    if (dashboardData) {
+      setLocalText(dashboardData.savedData || ""); // Update local text with saved data from dashboardData
+      setText(dashboardData.savedData || ""); // Update global state with fetched data from dashboardData
+    }
+  }, [dashboardData, setText]);
 
   useEffect(() => {
-    setLocalText(text); // Update local state when global text changes
-  }, [text]);
+    setLocalText(dashboardData?.savedData || ""); // Update local state when global text changes
+  }, [dashboardData?.savedData]);
 
   useEffect(() => {
     // Focus the textarea on page load and set cursor to the start
@@ -38,28 +31,33 @@ const Notes: React.FC<NotesProps> = ({ userId }) => {
     }
   }, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = async (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const newText = event.target.value;
     setLocalText(newText);
+    setText(newText); // Update global state on change
+
     // Save data to DB on change
     if (userId) {
-      saveUserDataToDB(userId, newText).catch((error) =>
-        console.error("Failed to save data to DB", error)
-      );
+      try {
+        await saveUserDataToDB(userId, newText);
+      } catch (error) {
+        console.error("Failed to save data to DB", error);
+      }
     }
-    setText(newText); // Update global state on change
   };
 
   return (
-    <div className={`p-1 ${isDarkMode ? "bg-gray-800" : "bg-white"}`}>
+    <div className={`p-1 ${isDarkMode ? "bg-neutral-900" : "bg-white"}`}>
       <textarea
         ref={textareaRef}
         placeholder="Enter some text"
         value={localText}
         onChange={handleInputChange}
-        className={`w-full p-5 border resize-none h-64 focus:outline-none rounded-md ${
+        className={`w-full p-5 border resize-none h-80 focus:outline-none rounded-md ${
           isDarkMode
-            ? "bg-gray-900 text-white border-gray-600"
+            ? "bg-neutral-800 text-white border-gray-600"
             : "bg-white text-black border-gray-300"
         }`}
       />

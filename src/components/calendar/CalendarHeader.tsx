@@ -14,16 +14,18 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
 
   return (
     <div
-      className={`flex justify-between items-center mb-4 p-4 rounded-lg${
-        isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-      } border-b ${isDarkMode ? "border-gray-600" : "border-gray-300"}`}
+      className={`flex justify-between items-center mb-4 p-4 rounded-lg ${
+        isDarkMode
+          ? "bg-neutral-900 text-neutral-200"
+          : "bg-white text-neutral-900"
+      } border-b ${isDarkMode ? "border-neutral-700" : "border-neutral-300"}`}
     >
       <button
         onClick={() => onMonthChange("prev")}
         className={`p-2 ${
           isDarkMode
-            ? "text-white hover:text-gray-400"
-            : "text-black hover:text-gray-700"
+            ? "text-neutral-200 hover:text-neutral-400"
+            : "text-neutral-900 hover:text-neutral-700"
         }`}
       >
         <ChevronLeft />
@@ -33,8 +35,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         onClick={() => onMonthChange("next")}
         className={`p-2 ${
           isDarkMode
-            ? "text-white hover:text-gray-400"
-            : "text-black hover:text-gray-700"
+            ? "text-neutral-200 hover:text-neutral-400"
+            : "text-neutral-900 hover:text-neutral-700"
         }`}
       >
         <ChevronRight />
@@ -43,8 +45,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         onClick={onTodayClick}
         className={`ml-4 ${
           isDarkMode
-            ? "bg-gray-700 text-white hover:bg-gray-600"
-            : "bg-gray-200 text-black hover:bg-gray-300"
+            ? "bg-neutral-700 text-neutral-200 hover:bg-neutral-600"
+            : "bg-gray-200 text-neutral-900 hover:bg-gray-300"
         }`}
       >
         Today

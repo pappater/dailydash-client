@@ -113,9 +113,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ googleId }) => {
     <TooltipProvider>
       <div
         className={`calendar-view p-4 rounded-2xl ${
-          isDarkMode
-            ? "bg-gray-900 text-white"
-            : "bg-white rounded-xl text-black"
+          isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"
         }`}
       >
         <CalendarHeader
@@ -125,7 +123,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ googleId }) => {
         />
         <div
           className={`grid grid-cols-7 gap-2 mb-4 text-center ${
-            isDarkMode ? "text-gray-400" : "text-gray-800"
+            isDarkMode ? "text-neutral-400" : "text-neutral-800"
           }`}
         >
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (

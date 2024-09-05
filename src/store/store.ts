@@ -8,6 +8,23 @@ interface User {
   photos: { value: string }[];
 }
 
+interface DashboardUserData {
+  isDarkMode: boolean;
+  googleId: string;
+  name: string;
+  email: string;
+  savedData: string;
+  widgetConfig: { type: Object; default: {} };
+  calendarEvents: [
+    {
+      date: string;
+      text: string;
+      completed: { type: boolean; default: boolean };
+    }
+  ];
+  darkMode: { type: boolean; default: boolean };
+}
+
 interface StoreState {
   user: User | null;
   text: string;
@@ -21,6 +38,8 @@ interface StoreState {
   removeWidget: (id: number) => void;
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
+  setDashboardData: (data: DashboardUserData | null) => void;
+  dashboardData: DashboardUserData | null;
 }
 
 const useStore = create<StoreState>((set, get) => ({
@@ -29,6 +48,8 @@ const useStore = create<StoreState>((set, get) => ({
   isDarkMode: false,
   showModal: false,
   widgets: [],
+  dashboardData: null,
+  setDashboardData: (data) => set({ dashboardData: data }),
   setUser: (user) => set({ user }),
   setText: (text) => set({ text }),
   setDarkMode: (isDarkMode) => set({ isDarkMode }),

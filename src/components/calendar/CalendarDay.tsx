@@ -28,25 +28,25 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
       <TooltipTrigger asChild>
         <div
           className={`calendar-day relative cursor-pointer flex flex-col justify-start items-center p-2 border rounded-lg transition-all duration-150 ease-in-out ${
-            isToday ? (isDarkMode ? "bg-blue-700" : "bg-blue-200") : ""
+            isToday ? (isDarkMode ? "bg-blue-900" : "bg-blue-300") : ""
           } ${
             isSameMonth(date, currentMonth)
               ? hasEvent
                 ? isDarkMode
-                  ? "bg-blue-600"
-                  : "bg-blue-100"
+                  ? "bg-neutral-700"
+                  : "bg-blue-200"
                 : isDarkMode
-                ? "bg-gray-700"
+                ? "bg-neutral-800"
                 : "bg-white"
               : isDarkMode
-              ? "bg-gray-600"
-              : "bg-gray-200"
-          } border-${isDarkMode ? "gray-600" : "gray-300"}`}
+              ? "bg-neutral-900"
+              : "bg-neutral-300"
+          } border-${isDarkMode ? "neutral-600" : "neutral-300"}`}
           onClick={() => onDateClick(formattedDate)}
         >
           <div
             className={`font-semibold text-center ${
-              isDarkMode ? "text-white" : "text-gray-800"
+              isDarkMode ? "text-white" : "text-black"
             }`}
           >
             {format(date, "d")}
@@ -58,8 +58,8 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                 className={`event p-1 rounded mb-1 text-xs text-left overflow-hidden truncate ${
                   isDarkMode
                     ? event.completed
-                      ? "line-through text-gray-500 bg-gray-800"
-                      : "bg-gray-900 text-white"
+                      ? "line-through text-gray-500 bg-neutral-800"
+                      : "bg-neutral-900 text-white"
                     : event.completed
                     ? "line-through text-gray-400"
                     : "bg-blue-50 text-black"
@@ -74,8 +74,8 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
       <TooltipContent
         className={`p-3 ${
           isDarkMode
-            ? "bg-gray-800 text-white border-gray-600"
-            : "bg-white text-black border-gray-300"
+            ? "bg-neutral-800 text-white border-neutral-600"
+            : "bg-white text-black border-neutral-300"
         } border rounded-lg shadow-lg text-sm`}
       >
         <div>
@@ -93,7 +93,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                         : "line-through text-gray-400"
                       : isDarkMode
                       ? "text-white"
-                      : "text-gray-800"
+                      : "text-black"
                   }`}
                 >
                   {event.text}
@@ -102,7 +102,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                   <button
                     onClick={() => onToggleComplete(event._id)}
                     className={`hover:${
-                      isDarkMode ? "text-green-300" : "text-green-700"
+                      isDarkMode ? "text-green-400" : "text-green-600"
                     }`}
                   >
                     <Check size={16} />
@@ -110,7 +110,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                   <button
                     onClick={() => onDeleteEvent(event._id)}
                     className={`hover:${
-                      isDarkMode ? "text-red-400" : "text-red-700"
+                      isDarkMode ? "text-red-500" : "text-red-600"
                     }`}
                   >
                     <Trash2 size={16} />
@@ -119,7 +119,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
               </div>
             ))
           ) : (
-            <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+            <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
               No events
             </p>
           )}

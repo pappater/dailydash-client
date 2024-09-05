@@ -216,4 +216,17 @@ export const updateCalendarEventCompletion = async (
   }
 };
 
+export const saveDarkModePreference = async (
+  userId: string,
+  darkMode: boolean
+) => {
+  try {
+    const response = await api.put(`/users/darkMode/${userId}`, { darkMode });
+    return response.data;
+  } catch (error) {
+    console.error("Error saving dark mode preference:", error);
+    throw error;
+  }
+};
+
 export default api;

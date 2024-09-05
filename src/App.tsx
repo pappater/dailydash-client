@@ -35,14 +35,6 @@ const App: React.FC = () => {
 
     checkAuthStatus();
   }, [setUser, navigate]);
-
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setDarkMode(newMode);
-    document.documentElement.classList.toggle("dark", newMode);
-    localStorage.setItem("darkMode", newMode.toString());
-  };
-
   return (
     <div
       className={`App ${
