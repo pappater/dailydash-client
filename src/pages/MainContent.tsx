@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Greeting from "../components/notes/Greeting";
 import Notes from "../components/notes/Notes";
@@ -13,14 +13,10 @@ const MainContent: React.FC = () => {
     showModal,
     setShowModal,
     isDarkMode,
-    dashboardData, // No longer needed
+    widgets, // Use widgets from the store directly
   } = useStore();
 
-  // Remove useEffect to fetch data as it's now managed in Dashboard
   if (!user) return null; // Handle the case where user data is not yet loaded
-
-  const widgetConfig = dashboardData?.widgetConfig; // Assuming widgetConfig is part of user data
-  console.log("widgetConfig", widgetConfig);
 
   return (
     <div
@@ -47,9 +43,9 @@ const MainContent: React.FC = () => {
             </CardContent>
           </Card>
 
-          {widgetConfig?.widgets.map(
+          {widgets.map(
             (
-              widget // Iterate directly over widgetConfig
+              widget // Iterate directly over widgets from the store
             ) => (
               <Card
                 key={widget.id}
@@ -70,7 +66,7 @@ const MainContent: React.FC = () => {
           )}
         </div>
 
-        {widgetConfig.widgets.length <= 1 && (
+        {widgets.length <= 1 && (
           <button
             onClick={() => setShowModal(true)}
             className={`flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors duration-300 ${
