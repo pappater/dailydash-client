@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Plus, Minus } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import useStore from "@/store/store";
+import WidgetListItem from "./WidgetListItem";
+import DialogHeaderSection from "./DialogHeaderSection";
+import DialogFooterSection from "./DialogFooterSection";
 
 interface AddWidgetModalProps {
   onClose: () => void;
@@ -18,11 +13,7 @@ interface AddWidgetModalProps {
 
 const widgetOptions = ["calendar", "stocks", "maps"];
 
-const AddWidget: React.FC<AddWidgetModalProps> = ({
-  onClose,
-  isOpen,
-  userId,
-}) => {
+const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
   const { widgets, addWidget, removeWidget, isDarkMode } = useStore();
 
   const handleAddWidget = async (widgetType: string) => {
@@ -53,55 +44,22 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({
             : "bg-white text-neutral-900"
         }`}
       >
-        <DialogHeader>
-          <DialogTitle
-            className={`text-lg font-bold ${
-              isDarkMode ? "text-neutral-200" : "text-neutral-900"
-            }`}
-          >
-            Add Widget
-          </DialogTitle>
-        </DialogHeader>
+        <DialogHeaderSection />
         <div className="flex flex-col gap-4 mt-4">
           {widgetOptions.map((widgetType) => {
             const isAdded = widgets.some((w) => w.type === widgetType);
             return (
-              <div
-                className="flex justify-between items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+              <WidgetListItem
                 key={widgetType}
-              >
-                <span className="capitalize">
-                  {widgetType.charAt(0).toUpperCase() + widgetType.slice(1)}
-                </span>
-                <Button
-                  variant="outline"
-                  className={`border ${
-                    isAdded
-                      ? "text-red-500 border-red-500"
-                      : "text-green-500 border-green-500"
-                  } ${isDarkMode ? "dark:border-gray-700" : "border-gray-300"}`}
-                  onClick={() =>
-                    isAdded
-                      ? handleRemoveWidget(widgetType)
-                      : handleAddWidget(widgetType)
-                  }
-                >
-                  {isAdded ? <Minus /> : <Plus />}
-                </Button>
-              </div>
+                widgetType={widgetType}
+                isAdded={isAdded}
+                onAdd={handleAddWidget}
+                onRemove={handleRemoveWidget}
+              />
             );
           })}
         </div>
-        <DialogFooter>
-          <Button
-            onClick={onClose}
-            className={`mt-4 ${
-              isDarkMode ? "bg-gray-600 text-white" : "bg-black text-white"
-            }`}
-          >
-            Close
-          </Button>
-        </DialogFooter>
+        <DialogFooterSection onClose={onClose} />
       </DialogContent>
     </Dialog>
   );
