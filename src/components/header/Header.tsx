@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import useStore from "../store/store";
+import useStore from "../../store/store";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { saveDarkModePreference } from "@/services/api"; // Ensure this path is correct
 
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className={`mt-2 w-48 ${
+              className={`mt-2 w-64 right-0 ${
                 isDarkMode
                   ? "bg-neutral-900 text-neutral-200 border-neutral-700"
                   : "bg-white text-neutral-900 border-neutral-200"
@@ -101,14 +101,14 @@ const Header: React.FC = () => {
                 }`}
               >
                 <p className="font-bold">{user.displayName}</p>
-                <p className="text-sm">{user.emails[0].value}</p>
+                <p className="text-sm break-words">{user.emails[0].value}</p>
               </div>
               <DropdownMenuItem
                 onClick={() =>
                   (window.location.href =
                     "http://localhost:5001/api/auth/logout")
                 }
-                className={`hover:bg-neutral-200 ${
+                className={`px-4 py-2 rounded-lg hover:bg-neutral-200 transition-colors duration-150 ${
                   isDarkMode
                     ? "dark:hover:bg-neutral-700"
                     : "dark:hover:bg-neutral-100"

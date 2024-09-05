@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../store/store";
-import Header from "../components/Header";
-import MainContent from "../components/MainContent";
+import Header from "../components/header/Header";
+import MainContent from "./MainContent";
 import { fetchUserData, fetchUserDataFromDB } from "../services/api";
 
 const Dashboard: React.FC = () => {
-  const { setUser, user, setDashboardData, isDarkMode, setDarkMode } =
+  const { setUser, setWidgets, setDashboardData, isDarkMode, setDarkMode } =
     useStore();
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,7 @@ const Dashboard: React.FC = () => {
               const dashboardData = await fetchUserDataFromDB(userData.id);
               setDashboardData(dashboardData);
               setDarkMode(dashboardData?.darkMode);
+              setWidgets(dashboardData?.widgetConfig?.widgets);
             } catch (error) {
               console.error("Failed to fetch dashboard data:", error);
             }

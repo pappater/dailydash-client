@@ -1,7 +1,7 @@
 // QuoteDisplay.tsx
 
 import React, { useState, useEffect } from "react";
-import quotesData from "../data/quotes.json"; // Adjust the path as necessary
+import quotesData from "../../data/quotes.json"; // Adjust the path as necessary
 
 const QuoteDisplay: React.FC = () => {
   const [currentQuote, setCurrentQuote] = useState<{

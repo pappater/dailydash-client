@@ -2,7 +2,7 @@
 
 import React from "react";
 import useStore from "../store/store";
-import QuoteDisplay from "../components/QuoteDisplay"; // Adjust the path if needed
+import QuoteDisplay from "../components/login/QuoteDisplay"; // Adjust the path if needed
 
 const Login: React.FC = () => {
   const { isDarkMode } = useStore();

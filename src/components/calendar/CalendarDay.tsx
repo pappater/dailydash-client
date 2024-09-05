@@ -100,7 +100,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                 </span>
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => onToggleComplete(event._id)}
+                    onClick={() => event._id && onToggleComplete(event._id)}
                     className={`hover:${
                       isDarkMode ? "text-green-400" : "text-green-600"
                     }`}
@@ -108,7 +108,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                     <Check size={16} />
                   </button>
                   <button
-                    onClick={() => onDeleteEvent(event._id)}
+                    onClick={() => event._id && onDeleteEvent(event._id)}
                     className={`hover:${
                       isDarkMode ? "text-red-500" : "text-red-600"
                     }`}

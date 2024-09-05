@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useStore from "../store/store";
+import useStore from "../../store/store";
 import { fetchWeatherByCoords, fetchWeatherByLocation } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

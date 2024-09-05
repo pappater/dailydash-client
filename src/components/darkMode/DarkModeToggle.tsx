@@ -1,6 +1,6 @@
 import React from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
-import useStore from "../store/store"; // Adjust path if needed
+import useStore from "../../store/store"; // Adjust path if needed
 
 const DarkModeToggle: React.FC = () => {
   const { isDarkMode, setDarkMode } = useStore();

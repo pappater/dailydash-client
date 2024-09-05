@@ -75,7 +75,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                 </span>
                 <div className="flex items-center">
                   <button
-                    onClick={() => onToggleComplete(event._id)}
+                    onClick={() => event._id && onToggleComplete(event._id)}
                     className="mr-2"
                   >
                     <Check
@@ -90,7 +90,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                     />
                   </button>
                   <button
-                    onClick={() => onDeleteEvent(event._id)}
+                    onClick={() => event._id && onDeleteEvent(event._id)}
                     className={`text-red-500 hover:text-red-700 ml-2 ${
                       isDarkMode ? "hover:text-red-400" : ""
                     }`}

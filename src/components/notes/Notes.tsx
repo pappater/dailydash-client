@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { saveUserDataToDB } from "../services/api";
-import useStore from "../store/store";
+import { saveUserDataToDB } from "../../services/api";
+import useStore from "../../store/store";
 
 interface NotesProps {
   userId: string;

@@ -18,7 +18,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         isDarkMode
           ? "bg-neutral-900 text-neutral-200"
           : "bg-white text-neutral-900"
-      } border-b ${isDarkMode ? "border-neutral-700" : "border-neutral-300"}`}
+      }  ${isDarkMode ? "border-neutral-700" : "border-neutral-300"}`}
     >
       <button
         onClick={() => onMonthChange("prev")}

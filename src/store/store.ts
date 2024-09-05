@@ -14,7 +14,7 @@ interface DashboardUserData {
   name: string;
   email: string;
   savedData: string;
-  widgetConfig: { type: Object; default: {} };
+  widgetConfig: { type: string; id: number };
   calendarEvents: [
     {
       date: string;

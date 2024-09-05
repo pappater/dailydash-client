@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import Greeting from "./Greeting";
-import Notes from "./Notes";
-import CalendarView from "./calendar/CalendarView";
+import Greeting from "../components/notes/Greeting";
+import Notes from "../components/notes/Notes";
+import CalendarView from "../components/calendar/CalendarView";
 import useStore from "../store/store";
-import AddWidgetModal from "./AddWidget";
+import AddWidgetModal from "../components/addwidget/AddWidget";
 
 const MainContent: React.FC = () => {
   const {
@@ -18,7 +18,8 @@ const MainContent: React.FC = () => {
   // Remove useEffect to fetch data as it's now managed in Dashboard
   if (!user) return null; // Handle the case where user data is not yet loaded
 
-  const { widgetConfig } = dashboardData; // Assuming widgetConfig is part of user data
+  const widgetConfig = dashboardData?.widgetConfig; // Assuming widgetConfig is part of user data
+  console.log("widgetConfig", widgetConfig);
 
   return (
     <div
@@ -45,22 +46,26 @@ const MainContent: React.FC = () => {
             </CardContent>
           </Card>
 
-          {widgetConfig.widgets.map((widget) => (
-            <Card
-              key={widget.id}
-              className={`h-[500px] w-full md:w-auto ${
-                isDarkMode
-                  ? "bg-neutral-800 text-white"
-                  : "bg-white text-gray-900"
-              }`}
-            >
-              {widget.type === "calendar" ? (
-                <CalendarView googleId={user?.id ?? ""} />
-              ) : (
-                widget.type
-              )}
-            </Card>
-          ))}
+          {widgetConfig?.widgets.map(
+            (
+              widget // Iterate directly over widgetConfig
+            ) => (
+              <Card
+                key={widget.id}
+                className={`h-[500px] w-full md:w-auto ${
+                  isDarkMode
+                    ? "bg-neutral-900 text-white"
+                    : "bg-white text-gray-900"
+                }`}
+              >
+                {widget.type === "calendar" ? (
+                  <CalendarView googleId={user?.id ?? ""} />
+                ) : (
+                  widget.type
+                )}
+              </Card>
+            )
+          )}
         </div>
 
         {widgetConfig.widgets.length <= 1 && (
