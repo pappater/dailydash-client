@@ -45,7 +45,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         onClick={onTodayClick}
         className={`ml-4 ${
           isDarkMode
-            ? "bg-neutral-700 text-neutral-200 hover:bg-neutral-600"
+            ? "bg-neutral-800 text-neutral-200 hover:bg-neutral-600"
             : "bg-gray-200 text-neutral-900 hover:bg-gray-300"
         }`}
       >

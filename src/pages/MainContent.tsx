@@ -5,6 +5,7 @@ import Notes from "../components/notes/Notes";
 import CalendarView from "../components/calendar/CalendarView";
 import useStore from "../store/store";
 import AddWidgetModal from "../components/addwidget/AddWidget";
+import StockComponent from "@/components/stocks/StockComponent";
 
 const MainContent: React.FC = () => {
   const {
@@ -61,8 +62,9 @@ const MainContent: React.FC = () => {
                 {widget.type === "calendar" ? (
                   <CalendarView googleId={user?.id ?? ""} />
                 ) : (
-                  widget.type
+                  ""
                 )}
+                {widget.type === "stocks" ? <StockComponent /> : ""}
               </Card>
             )
           )}
@@ -73,7 +75,7 @@ const MainContent: React.FC = () => {
             onClick={() => setShowModal(true)}
             className={`flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors duration-300 ${
               isDarkMode
-                ? "bg-neutral-700 text-white hover:bg-neutral-600"
+                ? "bg-neutral-800 text-white hover:bg-neutral-600"
                 : "bg-black text-white hover:bg-gray-800"
             }`}
           >
