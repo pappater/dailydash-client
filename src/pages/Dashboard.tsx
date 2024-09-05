@@ -5,8 +5,8 @@ import MainContent from "../components/MainContent";
 import { fetchUserData } from "../services/api";
 
 const Dashboard: React.FC = () => {
-  const { setUser, user } = useStore();
-  const [loading, setLoading] = useState(true); // Add loading state
+  const { setUser, user, isDarkMode, setDarkMode } = useStore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -15,15 +15,14 @@ const Dashboard: React.FC = () => {
         console.log("data", data);
 
         if (data.message === "Not authenticated") {
-          // Redirect to login if not authenticated
           window.location.href = "/";
         } else {
           setUser(data);
-          setLoading(false); // Stop loading once user is authenticated
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
-        window.location.href = "/"; // Redirect in case of an error
+        window.location.href = "/";
       }
     };
 
@@ -33,13 +32,22 @@ const Dashboard: React.FC = () => {
   }, [loading, setUser]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state until authentication is verified
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-4">
+    <div
+      className={`flex flex-col h-screen ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-800"
+      }`}
+    >
+      {/* Sticky Header */}
       <Header />
-      <MainContent />
+
+      {/* Scrollable Main Content */}
+      <div className="flex-1 overflow-y-auto">
+        <MainContent />
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ interface User {
   id: string;
   displayName: string;
   emails: { value: string }[];
+  photos: { value: string }[];
 }
 
 interface StoreState {
@@ -18,12 +19,15 @@ interface StoreState {
   setWidgets: (widgets: { type: string; id: number }[]) => void;
   addWidget: (widgetType: string) => void;
   removeWidget: (id: number) => void;
+  showModal: boolean;
+  setShowModal: (showModal: boolean) => void;
 }
 
 const useStore = create<StoreState>((set, get) => ({
   user: null,
   text: "",
   isDarkMode: false,
+  showModal: false,
   widgets: [],
   setUser: (user) => set({ user }),
   setText: (text) => set({ text }),
@@ -57,6 +61,7 @@ const useStore = create<StoreState>((set, get) => ({
       }
     }
   },
+  setShowModal: (show: boolean) => set({ showModal: show }),
 }));
 
 export default useStore;

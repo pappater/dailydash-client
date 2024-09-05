@@ -21,12 +21,14 @@ import {
 } from "@/services/api";
 import { TooltipProvider } from "../ui/tooltip";
 import { Event, CalendarViewProps, DateDirection } from "./types"; // Import types
+import useStore from "../../store/store";
 
 const CalendarView: React.FC<CalendarViewProps> = ({ googleId }) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { isDarkMode } = useStore();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -109,13 +111,23 @@ const CalendarView: React.FC<CalendarViewProps> = ({ googleId }) => {
 
   return (
     <TooltipProvider>
-      <div className="calendar-view p-4">
+      <div
+        className={`calendar-view p-4 rounded-2xl ${
+          isDarkMode
+            ? "bg-gray-900 text-white"
+            : "bg-white rounded-xl text-black"
+        }`}
+      >
         <CalendarHeader
           currentMonth={currentMonth}
           onMonthChange={handleMonthChange}
           onTodayClick={handleTodayClick}
         />
-        <div className="grid grid-cols-7 gap-2 mb-4 text-center">
+        <div
+          className={`grid grid-cols-7 gap-2 mb-4 text-center ${
+            isDarkMode ? "text-gray-400" : "text-gray-800"
+          }`}
+        >
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
             <div key={day} className="font-semibold">
               {day}

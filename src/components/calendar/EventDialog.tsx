@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, Trash2, X } from "lucide-react";
 import { EventDialogProps } from "./types"; // Import types
+import useStore from "../../store/store";
 
 const EventDialog: React.FC<EventDialogProps> = ({
   open,
@@ -15,6 +16,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
   onClose,
 }) => {
   const [newEventText, setNewEventText] = useState("");
+  const { isDarkMode } = useStore(); // Get the dark mode state
 
   const handleSave = () => {
     onAddEvent(newEventText);
@@ -23,14 +25,28 @@ const EventDialog: React.FC<EventDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="p-4 bg-white border rounded-lg shadow-lg">
+      <DialogContent
+        className={`p-4 rounded-lg shadow-lg ${
+          isDarkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-300"
+        }`}
+      >
         <div className="flex justify-between items-center mb-4">
-          <DialogTitle className="text-lg font-semibold">
+          <DialogTitle
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
             {selectedDate && `Events for ${selectedDate}`}
           </DialogTitle>
           <Button
             variant="outline"
-            className="text-gray-500 z-50 hover:text-gray-700"
+            className={`z-50 ${
+              isDarkMode
+                ? "text-gray-400 hover:text-gray-300"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
             onClick={onClose}
           >
             <X size={16} />
@@ -42,11 +58,17 @@ const EventDialog: React.FC<EventDialogProps> = ({
             .map((event) => (
               <div
                 key={event._id}
-                className="bg-gray-100 p-2 rounded mb-2 text-sm flex justify-between items-center"
+                className={`p-2 rounded mb-2 text-sm flex justify-between items-center ${
+                  isDarkMode ? "bg-gray-700" : "bg-gray-100"
+                }`}
               >
                 <span
                   className={`${
-                    event.completed ? "line-through text-gray-400" : ""
+                    event.completed
+                      ? "line-through text-gray-400"
+                      : isDarkMode
+                      ? "text-gray-300"
+                      : "text-gray-800"
                   }`}
                 >
                   {event.text}
@@ -59,13 +81,19 @@ const EventDialog: React.FC<EventDialogProps> = ({
                     <Check
                       size={16}
                       className={`${
-                        event.completed ? "text-green-500" : "text-gray-500"
+                        event.completed
+                          ? "text-green-500"
+                          : isDarkMode
+                          ? "text-gray-500"
+                          : "text-gray-500"
                       }`}
                     />
                   </button>
                   <button
                     onClick={() => onDeleteEvent(event._id)}
-                    className="text-red-500 hover:text-red-700 ml-2"
+                    className={`text-red-500 hover:text-red-700 ml-2 ${
+                      isDarkMode ? "hover:text-red-400" : ""
+                    }`}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -75,12 +103,21 @@ const EventDialog: React.FC<EventDialogProps> = ({
         </div>
         <Input
           type="text"
-          className="border p-2 rounded-md w-full mb-4"
+          className={`border p-2 rounded-md w-full mb-4 ${
+            isDarkMode
+              ? "bg-gray-900 text-white border-gray-600"
+              : "bg-white border-gray-300"
+          }`}
           value={newEventText}
           onChange={(e) => setNewEventText(e.target.value)}
           placeholder="Add event/task"
         />
-        <Button className="bg-black text-white w-full" onClick={handleSave}>
+        <Button
+          className={`w-full ${
+            isDarkMode ? "bg-gray-600 text-white" : "bg-black text-white"
+          }`}
+          onClick={handleSave}
+        >
           Save
         </Button>
       </DialogContent>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Greeting from "./Greeting";
 import Notes from "./Notes";
@@ -6,11 +6,10 @@ import CalendarView from "./calendar/CalendarView";
 import useStore from "../store/store";
 import { fetchUserDataFromDB, fetchWidgetConfig } from "../services/api";
 import AddWidgetModal from "./AddWidget";
-import DailyBriefing from "./DailyBriefing";
 
 const MainContent: React.FC = () => {
-  const { user, widgets, addWidget, removeWidget, setWidgets } = useStore();
-  const [showModal, setShowModal] = useState(false);
+  const { user, widgets, setWidgets, showModal, setShowModal, isDarkMode } =
+    useStore();
 
   useEffect(() => {
     if (user?.id) {
@@ -31,20 +30,33 @@ const MainContent: React.FC = () => {
   }, [user?.id, setWidgets]);
 
   return (
-    <div className="flex flex-wrap gap-[15px] p-4">
-      <div className="flex-1 min-w-[70%]">
-        <Card className="mb-4">
-          <CardHeader>
-            <Greeting userName={user?.displayName} />
-          </CardHeader>
-          <CardContent>
-            <Notes userId={user?.id ?? ""} />
-          </CardContent>
-        </Card>
+    <div
+      className={`flex flex-wrap md:flex-nowrap gap-6 p-6 min-h-screen ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
+      <div className="w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card
+            className={`mb-4 h-[500px] w-full md:w-auto ${
+              isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+            }`}
+          >
+            <CardHeader>
+              <Greeting userName={user?.displayName} />
+            </CardHeader>
+            <CardContent>
+              <Notes userId={user?.id ?? ""} />
+            </CardContent>
+          </Card>
 
-        <div className="widgets-container">
           {widgets.map((widget) => (
-            <Card key={widget.id} className="widget-card">
+            <Card
+              key={widget.id}
+              className={`h-[500px] w-full md:w-auto widget-card ${
+                isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+              }`}
+            >
               {widget.type === "calendar" ? (
                 <CalendarView googleId={user?.id ?? ""} />
               ) : (
@@ -55,21 +67,7 @@ const MainContent: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-[0.25] min-w-[25%]">
-        <Card>
-          <CardHeader>
-            <h2 className="text-xl font-semibold mb-4">Daily Briefing</h2>
-          </CardHeader>
-          <CardContent>
-            <DailyBriefing />
-          </CardContent>
-        </Card>
-      </div>
-
-      <button className="add-widget-btn" onClick={() => setShowModal(true)}>
-        Manage Widget
-      </button>
-
+      {/* Modal for managing widgets */}
       <AddWidgetModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

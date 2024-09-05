@@ -7,7 +7,7 @@ interface NotesProps {
 }
 
 const Notes: React.FC<NotesProps> = ({ userId }) => {
-  const { text, setText } = useStore();
+  const { text, setText, isDarkMode } = useStore();
   const [localText, setLocalText] = useState(text);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,13 +51,17 @@ const Notes: React.FC<NotesProps> = ({ userId }) => {
   };
 
   return (
-    <div className="p-1 bg-white">
+    <div className={`p-1 ${isDarkMode ? "bg-gray-800" : "bg-white"}`}>
       <textarea
         ref={textareaRef}
         placeholder="Enter some text"
         value={localText}
         onChange={handleInputChange}
-        className="w-full p-5 border resize-none h-64 focus:outline-none rounded-md"
+        className={`w-full p-5 border resize-none h-64 focus:outline-none rounded-md ${
+          isDarkMode
+            ? "bg-gray-900 text-white border-gray-600"
+            : "bg-white text-black border-gray-300"
+        }`}
       />
     </div>
   );

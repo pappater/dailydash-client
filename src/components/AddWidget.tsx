@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus } from "lucide-react"; // Import Plus and Minus icons from Lucide
+import { Plus, Minus } from "lucide-react";
 import useStore from "@/store/store";
 
 interface AddWidgetModalProps {
@@ -16,14 +16,14 @@ interface AddWidgetModalProps {
   userId: string;
 }
 
-const widgetOptions = ["calendar", "stocks", "maps"]; // List of available widgets
+const widgetOptions = ["calendar", "stocks", "maps"];
 
 const AddWidget: React.FC<AddWidgetModalProps> = ({
   onClose,
   isOpen,
   userId,
 }) => {
-  const { widgets, addWidget, removeWidget } = useStore();
+  const { widgets, addWidget, removeWidget, isDarkMode } = useStore();
 
   const handleAddWidget = async (widgetType: string) => {
     try {
@@ -46,9 +46,17 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent
+        className={`${
+          isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        }`}
+      >
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-black">
+          <DialogTitle
+            className={`text-lg font-bold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
             Add Widget
           </DialogTitle>
         </DialogHeader>
@@ -65,7 +73,9 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({
                 </span>
                 <Button
                   variant="outline"
-                  className={isAdded ? "text-red-500" : "text-green-500"}
+                  className={`${isAdded ? "text-red-500" : "text-green-500"} ${
+                    isDarkMode ? "border-gray-700" : "border-gray-300"
+                  }`}
                   onClick={() =>
                     isAdded
                       ? handleRemoveWidget(widgetType)

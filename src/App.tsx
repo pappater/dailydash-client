@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import useStore from "./store/store";
 import { FaMoon, FaSun } from "react-icons/fa"; // Import icons from react-icons
+import DarkModeToggle from "./components/DarkModeToggle";
 
 const App: React.FC = () => {
   const { user, setUser, isDarkMode, setDarkMode } = useStore();
@@ -56,7 +57,7 @@ const App: React.FC = () => {
             isDarkMode ? "opacity-50" : "opacity-100"
           }`}
         /> */}
-        <button
+        {/* <button
           onClick={toggleDarkMode}
           className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
             isDarkMode ? "bg-gray-700" : ""
@@ -73,7 +74,8 @@ const App: React.FC = () => {
               <FaSun className="text-yellow-500 w-3/4 h-full" />
             )}
           </div>
-        </button>
+        </button> */}
+        <DarkModeToggle />
         {/* <FaMoon
           onClick={() => isDarkMode && toggleDarkMode()}
           className={`text-yellow-500 cursor-pointer transition-opacity duration-300 ${
