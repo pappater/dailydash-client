@@ -27,9 +27,14 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <div
+          style={{
+            backgroundColor: isToday
+              ? isDarkMode
+                ? "#1E40AF"
+                : "#93C5FD"
+              : undefined,
+          }}
           className={`calendar-day relative cursor-pointer flex flex-col justify-start items-center p-2 border rounded-lg transition-all duration-150 ease-in-out ${
-            isToday ? (isDarkMode ? "bg-blue-700" : "bg-blue-300") : ""
-          } ${
             isSameMonth(date, currentMonth)
               ? hasEvent
                 ? isDarkMode

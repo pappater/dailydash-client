@@ -29,9 +29,9 @@ const MainContent: React.FC = () => {
       <div className="w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card
-            className={`mb-4 h-[500px] w-full md:w-auto ${
+            className={`mb-4  h-[500px] w-full md:w-auto ${
               isDarkMode
-                ? "bg-neutral-900 text-white"
+                ? "bg-neutral-900 text-white border-neutral-500"
                 : "bg-white text-gray-900"
             }`}
           >
@@ -51,7 +51,7 @@ const MainContent: React.FC = () => {
                 key={widget.id}
                 className={`h-[500px] w-full md:w-auto ${
                   isDarkMode
-                    ? "bg-neutral-900 text-white"
+                    ? "bg-neutral-900 border-neutral-500  text-white"
                     : "bg-white text-gray-900"
                 }`}
               >

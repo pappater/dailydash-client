@@ -22,6 +22,10 @@ const Dashboard: React.FC = () => {
           if (userData.id) {
             try {
               const dashboardData = await fetchUserDataFromDB(userData.id);
+              // console.log(prompts.news);
+
+              // const news = await fromPrompt(prompts.news);
+              // console.log("news", news);
               setDashboardData(dashboardData);
               setDarkMode(dashboardData?.darkMode);
               setWidgets(dashboardData?.widgetConfig?.widgets);

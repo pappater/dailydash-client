@@ -228,5 +228,14 @@ export const saveDarkModePreference = async (
     throw error;
   }
 };
+export const fromPrompt = async (prompt: string) => {
+  try {
+    const response = await api.post("/prompts/text-gen", { prompt });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching gold rate:", error);
+    throw error;
+  }
+};
 
 export default api;
