@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const GOLD_API_KEY = import.meta.env.VITE_GOLD_API;
 
 // Create an instance of axios
-const api = axios.create({
+export const api = axios.create({
   baseURL: "/api",
   withCredentials: true, // To include cookies in requests
 });

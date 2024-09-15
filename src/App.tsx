@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import useStore from "./store/store";
-import { FaMoon, FaSun } from "react-icons/fa"; // Import icons from react-icons
 import DarkModeToggle from "./components/darkMode/DarkModeToggle";
 
 const App: React.FC = () => {

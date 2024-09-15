@@ -1,4 +1,4 @@
-import { useFetchStockData } from "@/hooks/useStockData";
+// import { useFetchStockData } from "@/hooks/useStockData";
 import StockTabs from "./StockTabs";
 
 const StockComponent = () => {
