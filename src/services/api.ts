@@ -238,4 +238,13 @@ export const fromPrompt = async (prompt: string) => {
   }
 };
 
+export const fetchStockData = async (symbol: string) => {
+  try {
+    const response = await api.get(`/scrape/chart/${symbol}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching gold rate:", error);
+    throw error;
+  }
+};
 export default api;

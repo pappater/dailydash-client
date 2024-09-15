@@ -6,6 +6,7 @@ import CalendarView from "../components/calendar/CalendarView";
 import useStore from "../store/store";
 import AddWidgetModal from "../components/addwidget/AddWidget";
 import StockComponent from "@/components/stocks/StockComponent";
+import NewsComponent from "@/components/news/NewsComponent";
 
 const MainContent: React.FC = () => {
   const {
@@ -61,6 +62,7 @@ const MainContent: React.FC = () => {
                   ""
                 )}
                 {widget.type === "stocks" ? <StockComponent /> : ""}
+                <NewsComponent />
               </Card>
             )
           )}
