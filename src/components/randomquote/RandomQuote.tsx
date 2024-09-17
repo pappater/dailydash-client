@@ -48,6 +48,18 @@ const RandomQuote = () => {
               - {quote.author}
             </p>
           </div>
+          <a
+            href="https://niche-psi.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-sm font-semibold underline ${
+              isDarkMode
+                ? "text-blue-400 hover:text-blue-300"
+                : "text-blue-600 hover:text-blue-500"
+            }`}
+          >
+            Read more
+          </a>
         </div>
       ) : (
         <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
