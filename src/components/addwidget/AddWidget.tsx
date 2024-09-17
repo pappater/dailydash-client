@@ -11,7 +11,7 @@ interface AddWidgetModalProps {
   userId: string;
 }
 
-const widgetOptions = ["calendar", "stocks", "maps", "quotes"];
+const widgetOptions = ["calendar", "stocks", "random_location", "quotes"];
 
 const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
   const { widgets, addWidget, removeWidget, isDarkMode } = useStore();

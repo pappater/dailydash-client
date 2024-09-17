@@ -7,6 +7,7 @@ import useStore from "../store/store";
 import AddWidgetModal from "../components/addwidget/AddWidget";
 import StockComponent from "@/components/stocks/StockComponent";
 import RandomQuote from "@/components/randomquote/RandomQuote";
+import RandomLocationMap from "@/components/randomlocation/RandomLocationMap";
 
 const MainContent: React.FC = () => {
   const {
@@ -30,7 +31,7 @@ const MainContent: React.FC = () => {
       <div className="w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card
-            className={`mb-4  h-[500px] w-full md:w-auto ${
+            className={`mb-4 w-full md:w-auto ${
               isDarkMode
                 ? "bg-neutral-900 text-white border-neutral-500"
                 : "bg-white text-gray-900"
@@ -44,30 +45,26 @@ const MainContent: React.FC = () => {
             </CardContent>
           </Card>
 
-          {widgets.map(
-            (
-              widget // Iterate directly over widgets from the store
-            ) => (
-              <Card
-                key={widget.id}
-                className={`h-[500px] w-full md:w-auto ${
-                  isDarkMode
-                    ? "bg-neutral-900 border-neutral-500  text-white"
-                    : "bg-white text-gray-900"
-                }`}
-              >
-                {widget.type === "calendar" ? (
-                  <CalendarView googleId={user?.id ?? ""} />
-                ) : (
-                  ""
-                )}
-                {widget.type === "stocks" ? <StockComponent /> : ""}
-                {widget.type === "quotes" ? <RandomQuote /> : ""}
+          {widgets.map((widget) => (
+            <Card
+              key={widget.id}
+              className={` w-full md:w-auto ${
+                isDarkMode
+                  ? "bg-neutral-900 border-neutral-500  text-white"
+                  : "bg-white text-gray-900"
+              }`}
+              style={{ minHeight: "200px" }} // Set a reasonable minimum height for all widgets
+            >
+              {widget.type === "calendar" && (
+                <CalendarView googleId={user?.id ?? ""} />
+              )}
+              {widget.type === "stocks" && <StockComponent />}
+              {widget.type === "random_location" && <RandomLocationMap />}
+              {widget.type === "quotes" && <RandomQuote />}
 
-                {/* <NewsComponent /> */}
-              </Card>
-            )
-          )}
+              {/* <NewsComponent /> */}
+            </Card>
+          ))}
         </div>
 
         {widgets.length <= 1 && (

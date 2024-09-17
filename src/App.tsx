@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import useStore from "./store/store";
 import DarkModeToggle from "./components/darkMode/DarkModeToggle";
+import "leaflet/dist/leaflet.css";
 
 const App: React.FC = () => {
   const { user, setUser, isDarkMode, setDarkMode } = useStore();
