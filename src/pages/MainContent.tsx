@@ -15,10 +15,10 @@ const MainContent: React.FC = () => {
     showModal,
     setShowModal,
     isDarkMode,
-    widgets, // Use widgets from the store directly
+    widgets,
   } = useStore();
 
-  if (!user) return null; // Handle the case where user data is not yet loaded
+  if (!user) return null;
 
   return (
     <div
@@ -53,7 +53,7 @@ const MainContent: React.FC = () => {
                   ? "bg-neutral-900 border-neutral-500  text-white"
                   : "bg-white text-gray-900"
               }`}
-              style={{ minHeight: "200px" }} // Set a reasonable minimum height for all widgets
+              style={{ minHeight: "200px" }}
             >
               {widget.type === "calendar" && (
                 <CalendarView googleId={user?.id ?? ""} />
@@ -61,8 +61,6 @@ const MainContent: React.FC = () => {
               {widget.type === "stocks" && <StockComponent />}
               {widget.type === "random_location" && <RandomLocationMap />}
               {widget.type === "quotes" && <RandomQuote />}
-
-              {/* <NewsComponent /> */}
             </Card>
           ))}
         </div>
@@ -81,7 +79,6 @@ const MainContent: React.FC = () => {
         )}
       </div>
 
-      {/* Modal for managing widgets */}
       <AddWidgetModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

@@ -8,6 +8,7 @@ interface WidgetListItemProps {
   isAdded: boolean;
   onAdd: (widgetType: string) => void;
   onRemove: (widgetType: string) => void;
+  name: string; // New prop for the widget name
 }
 
 const WidgetListItem: React.FC<WidgetListItemProps> = ({
@@ -15,6 +16,7 @@ const WidgetListItem: React.FC<WidgetListItemProps> = ({
   isAdded,
   onAdd,
   onRemove,
+  name, // Destructure the new prop
 }) => {
   const { isDarkMode } = useStore();
 
@@ -26,7 +28,7 @@ const WidgetListItem: React.FC<WidgetListItemProps> = ({
       key={widgetType}
     >
       <span className="capitalize text-lg font-medium">
-        {widgetType.charAt(0).toUpperCase() + widgetType.slice(1)}
+        {name} {/* Use the name prop instead of widgetType */}
       </span>
       <Button
         variant="outline"

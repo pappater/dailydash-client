@@ -11,7 +11,12 @@ interface AddWidgetModalProps {
   userId: string;
 }
 
-const widgetOptions = ["calendar", "stocks", "random_location", "quotes"];
+const widgetOptions = [
+  { type: "calendar", name: "Calendar", order: 1, category: "Productivity" },
+  { type: "stocks", name: "Stocks", order: 2, category: "Finance" },
+  { type: "random_location", name: "Random Location", order: 3, category: "Fun" },
+  { type: "quotes", name: "Quotes", order: 4, category: "Inspiration" },
+];
 
 const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
   const { widgets, addWidget, removeWidget, isDarkMode } = useStore();
@@ -46,15 +51,16 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
       >
         <DialogHeaderSection /> {/* You might want to rename these sections */}
         <div className="flex flex-col gap-4 mt-4">
-          {widgetOptions.map((widgetType) => {
-            const isAdded = widgets.some((w) => w.type === widgetType);
+          {widgetOptions.map((widget) => {
+            const isAdded = widgets.some((w) => w.type === widget.type);
             return (
               <WidgetListItem
-                key={widgetType}
-                widgetType={widgetType}
+                key={widget.type}
+                widgetType={widget.type}
                 isAdded={isAdded}
                 onAdd={handleAddWidget}
                 onRemove={handleRemoveWidget}
+                name={widget.name} // Pass the name to WidgetListItem
               />
             );
           })}
