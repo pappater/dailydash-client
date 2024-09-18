@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Drawer, DrawerContent } from "@/components/ui/drawer"; // Updated import
 import useStore from "@/store/store";
 import WidgetListItem from "./WidgetListItem";
 import DialogHeaderSection from "./DialogHeaderSection";
@@ -36,15 +36,15 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent
+    <Drawer open={isOpen} onOpenChange={onClose}> {/* Updated component */}
+      <DrawerContent
         className={`p-4 rounded-lg shadow-lg ${
           isDarkMode
             ? "bg-neutral-900 text-neutral-200"
             : "bg-white text-neutral-900"
         }`}
       >
-        <DialogHeaderSection />
+        <DialogHeaderSection /> {/* You might want to rename these sections */}
         <div className="flex flex-col gap-4 mt-4">
           {widgetOptions.map((widgetType) => {
             const isAdded = widgets.some((w) => w.type === widgetType);
@@ -59,9 +59,9 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
             );
           })}
         </div>
-        <DialogFooterSection onClose={onClose} />
-      </DialogContent>
-    </Dialog>
+        <DialogFooterSection onClose={onClose} /> {/* You might want to rename these sections */}
+      </DrawerContent>
+    </Drawer>
   );
 };
 
