@@ -14,8 +14,14 @@ interface AddWidgetModalProps {
 const widgetOptions = [
   { type: "calendar", name: "Calendar", order: 1, category: "Productivity" },
   { type: "stocks", name: "Stocks", order: 2, category: "Finance" },
-  { type: "random_location", name: "Random Location", order: 3, category: "Fun" },
+  {
+    type: "random_location",
+    name: "Random Location",
+    order: 3,
+    category: "Fun",
+  },
   { type: "quotes", name: "Quotes", order: 4, category: "Inspiration" },
+  { type: "tracker", name: "Tracker", order: 5, category: "Customization" }, // Added Tracker option
 ];
 
 const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
@@ -41,33 +47,39 @@ const AddWidget: React.FC<AddWidgetModalProps> = ({ onClose, isOpen }) => {
   };
 
   return (
-    <Drawer open={isOpen} onOpenChange={onClose}> {/* Updated component */}
-      <DrawerContent
-        className={`p-4 rounded-lg shadow-lg ${
-          isDarkMode
-            ? "bg-neutral-900 text-neutral-200"
-            : "bg-white text-neutral-900"
-        }`}
-      >
-        <DialogHeaderSection /> {/* You might want to rename these sections */}
-        <div className="flex flex-col gap-4 mt-4">
-          {widgetOptions.map((widget) => {
-            const isAdded = widgets.some((w) => w.type === widget.type);
-            return (
-              <WidgetListItem
-                key={widget.type}
-                widgetType={widget.type}
-                isAdded={isAdded}
-                onAdd={handleAddWidget}
-                onRemove={handleRemoveWidget}
-                name={widget.name} // Pass the name to WidgetListItem
-              />
-            );
-          })}
-        </div>
-        <DialogFooterSection onClose={onClose} /> {/* You might want to rename these sections */}
-      </DrawerContent>
-    </Drawer>
+    <div className="asdf">
+      <Drawer open={isOpen} onOpenChange={onClose}>
+        {" "}
+        {/* Updated component */}
+        <DrawerContent
+          className={`p-4 rounded-lg shadow-lg z-50 ${
+            isDarkMode
+              ? "bg-neutral-900 text-neutral-200"
+              : "bg-white text-neutral-900"
+          }`}
+        >
+          <DialogHeaderSection />{" "}
+          {/* You might want to rename these sections */}
+          <div className="flex flex-col gap-4 mt-4">
+            {widgetOptions.map((widget) => {
+              const isAdded = widgets.some((w) => w.type === widget.type);
+              return (
+                <WidgetListItem
+                  key={widget.type}
+                  widgetType={widget.type}
+                  isAdded={isAdded}
+                  onAdd={handleAddWidget}
+                  onRemove={handleRemoveWidget}
+                  name={widget.name} // Pass the name to WidgetListItem
+                />
+              );
+            })}
+          </div>
+          <DialogFooterSection onClose={onClose} />{" "}
+          {/* You might want to rename these sections */}
+        </DrawerContent>
+      </Drawer>
+    </div>
   );
 };
 

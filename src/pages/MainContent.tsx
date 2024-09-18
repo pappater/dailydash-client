@@ -8,6 +8,7 @@ import AddWidgetModal from "../components/addwidget/AddWidget";
 import StockComponent from "@/components/stocks/StockComponent";
 import RandomQuote from "@/components/randomquote/RandomQuote";
 import RandomLocationMap from "@/components/randomlocation/RandomLocationMap";
+import DinosaurRunner from "@/components/dinosaurrunner/DinosaurRunner";
 
 const MainContent: React.FC = () => {
   const {
@@ -61,6 +62,7 @@ const MainContent: React.FC = () => {
               {widget.type === "stocks" && <StockComponent />}
               {widget.type === "random_location" && <RandomLocationMap />}
               {widget.type === "quotes" && <RandomQuote />}
+              {/* {widget.type === "dinosaur_runner" && <DinosaurRunner/>} */}
             </Card>
           ))}
         </div>
