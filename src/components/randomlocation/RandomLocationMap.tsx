@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import useStore from "@/store/store"; // Import your store or context for theme
 import Map from "./Map";
+import { RefreshCw, ChevronDown } from "lucide-react";
 import { getRandomLocation } from "@/utils/helpers";
+import useStore from "@/store/store";
 
 const RandomLocationMap = () => {
-  const { isDarkMode } = useStore(); // Access dark mode from store or context
   const [radius, setRadius] = useState<number>(5);
   const [customRadius, setCustomRadius] = useState<number | null>(null);
   const [userLocation, setUserLocation] = useState<{
@@ -15,9 +15,9 @@ const RandomLocationMap = () => {
     lat: number;
     lng: number;
   } | null>(null);
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false); // Toggle for optional sections
+  const { isDarkMode } = useStore();
+  const [isMenuOpen] = useState(false);
 
-  // Get user location from browser
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -29,9 +29,14 @@ const RandomLocationMap = () => {
     }
   }, []);
 
-  // Generate random location when userLocation and radius are set
   useEffect(() => {
     if (userLocation && (customRadius || radius)) {
+      generateRandomLocation();
+    }
+  }, [userLocation, radius, customRadius]);
+
+  const generateRandomLocation = () => {
+    if (userLocation) {
       const randomLoc = getRandomLocation(
         userLocation.lat,
         userLocation.lng,
@@ -39,98 +44,237 @@ const RandomLocationMap = () => {
       );
       setRandomLocation(randomLoc);
     }
-  }, [userLocation, radius, customRadius]);
+  };
 
   return (
     <div
-      className={`w-full h-[500px] p-6 rounded-xl shadow-lg ${
+      className={`min-h-screen rounded-xl ${
         isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"
       }`}
     >
-      <h2 className="text-2xl font-bold mb-4">Random Location Map</h2>
-
-      <div className="mb-4">
-        <label htmlFor="radius" className="block mb-2 text-lg font-medium">
-          Select Radius (km)
-        </label>
-        <select
-          id="radius"
-          className={`block w-full p-2.5 border rounded-lg ${
-            isDarkMode ? "bg-neutral-800 text-white" : "bg-white text-black"
-          }`}
-          value={radius}
-          onChange={(e) => {
-            const value = e.target.value;
-            if (value === "custom") {
-              setCustomRadius(5); // Default custom radius
-            } else {
-              setRadius(parseInt(value));
-              setCustomRadius(null); // Reset custom radius when a predefined value is selected
-            }
-          }}
-        >
-          {Array.from({ length: 100 }, (_, i) => (i + 1) * 5).map((r) => (
-            <option key={r} value={r}>
-              {r} km
-            </option>
-          ))}
-          <option value="custom">Custom Radius</option>
-        </select>
-        {customRadius !== null && (
-          <input
-            type="number"
-            placeholder="Enter custom radius (km)"
-            value={customRadius || ""}
-            onChange={(e) => setCustomRadius(Number(e.target.value))}
-            className={`block w-full mt-2 p-2.5 border rounded-lg ${
-              isDarkMode ? "bg-neutral-800 text-white" : "bg-white text-black"
-            }`}
-          />
-        )}
-      </div>
-
-      <button
-        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-        className="text-blue-500 underline mb-4"
+      <header
+        className={`p-4 flex justify-between items-center border-b ${
+          isDarkMode ? "border-neutral-700" : "border-neutral-200"
+        }`}
       >
-        {showAdvancedOptions
-          ? "Hide Advanced Options"
-          : "Show Advanced Options"}
-      </button>
+        <h1 className="text-xl md:text-2xl font-bold">Random Location</h1>
 
-      {showAdvancedOptions && (
-        <div className="mb-4">
-          <label htmlFor="location" className="block mb-2 text-lg font-medium">
-            Enter Location (optional)
-          </label>
+        <div className="hidden md:flex items-center space-x-4">
+          <div className="relative">
+            <select
+              className={`appearance-none ${
+                isDarkMode
+                  ? "bg-neutral-800 border-neutral-600 text-white"
+                  : "bg-white border-neutral-300 text-black"
+              } border rounded-md py-2 pl-3 pr-10 text-sm leading-5 focus:outline-none focus:border-blue-500`}
+              value={radius}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "custom") {
+                  setCustomRadius(5);
+                } else {
+                  setRadius(parseInt(value));
+                  setCustomRadius(null);
+                }
+              }}
+            >
+              {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map((r) => (
+                <option key={r} value={r}>
+                  {r} km
+                </option>
+              ))}
+              <option value="custom">Custom</option>
+            </select>
+            <ChevronDown
+              className={`absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+              size={16}
+            />
+          </div>
+          {customRadius !== null && (
+            <input
+              type="number"
+              placeholder="Custom radius (km)"
+              value={customRadius || ""}
+              onChange={(e) => setCustomRadius(Number(e.target.value))}
+              className={`w-32 px-3 py-2 ${
+                isDarkMode
+                  ? "bg-neutral-800 border-neutral-600"
+                  : "bg-white border-neutral-300"
+              } border rounded-md text-sm focus:outline-none focus:border-blue-500`}
+            />
+          )}
           <input
-            id="location"
             type="text"
-            placeholder="Latitude, Longitude"
-            className={`block w-full p-2.5 border rounded-lg ${
-              isDarkMode ? "bg-neutral-800 text-white" : "bg-white text-black"
-            }`}
+            placeholder="Lat, Lng"
+            className={`px-3 py-2 ${
+              isDarkMode
+                ? "bg-neutral-800 border-neutral-600"
+                : "bg-white border-neutral-300"
+            } border rounded-md text-sm focus:outline-none focus:border-blue-500`}
             onChange={(e) => {
               const [lat, lng] = e.target.value.split(",").map(Number);
-              setUserLocation({ lat, lng });
+              if (!isNaN(lat) && !isNaN(lng)) {
+                setUserLocation({ lat, lng });
+              }
             }}
           />
+          <button
+            onClick={generateRandomLocation}
+            className={`px-4 py-2 rounded-md ${
+              isDarkMode
+                ? "bg-neutral-800 text-white hover:bg-neutral-600 focus:ring-neutral-500 focus:ring-opacity-50"
+                : "bg-neutral-200 text-black hover:bg-neutral-300 focus:ring-white-500 focus:ring-opacity-50"
+            } focus:outline-none focus:ring-2 `}
+          >
+            <RefreshCw size={20} />
+          </button>
+        </div>
+      </header>
+      {isMenuOpen && (
+        <div
+          className={`md:hidden p-4 border-b ${
+            isDarkMode ? "border-neutral-700" : "border-neutral-200"
+          }`}
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="mobile-radius"
+              className="block text-sm font-medium mb-1"
+            >
+              Radius (km)
+            </label>
+            <select
+              id="mobile-radius"
+              className={`w-full px-3 py-2 ${
+                isDarkMode
+                  ? "bg-neutral-800 border-neutral-600 text-white"
+                  : "bg-white border-neutral-300 text-black"
+              } rounded-md text-sm focus:outline-none focus:border-blue-500`}
+              value={radius}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "custom") {
+                  setCustomRadius(5);
+                } else {
+                  setRadius(parseInt(value));
+                  setCustomRadius(null);
+                }
+              }}
+            >
+              {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map((r) => (
+                <option key={r} value={r}>
+                  {r} km
+                </option>
+              ))}
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          {customRadius !== null && (
+            <div className="mb-4">
+              <label
+                htmlFor="mobile-custom-radius"
+                className="block text-sm font-medium mb-1"
+              >
+                Custom Radius (km)
+              </label>
+              <input
+                id="mobile-custom-radius"
+                type="number"
+                value={customRadius || ""}
+                onChange={(e) => setCustomRadius(Number(e.target.value))}
+                className={`w-full px-3 py-2 ${
+                  isDarkMode
+                    ? "bg-neutral-800 border-neutral-600 text-white"
+                    : "bg-white border-neutral-300 text-black"
+                } rounded-md text-sm focus:outline-none focus:border-blue-500`}
+              />
+            </div>
+          )}
+          <div className="mb-4">
+            <label
+              htmlFor="mobile-location"
+              className="block text-sm font-medium mb-1"
+            >
+              Manual Location (Lat, Lng)
+            </label>
+            <input
+              id="mobile-location"
+              type="text"
+              placeholder="Latitude, Longitude"
+              className={`w-full px-3 py-2 ${
+                isDarkMode
+                  ? "bg-neutral-800 border-neutral-600 text-white"
+                  : "bg-white border-neutral-300 text-black"
+              } rounded-md text-sm focus:outline-none focus:border-blue-500`}
+              onChange={(e) => {
+                const [lat, lng] = e.target.value.split(",").map(Number);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                  setUserLocation({ lat, lng });
+                }
+              }}
+            />
+          </div>
         </div>
       )}
 
-      {randomLocation && showAdvancedOptions && (
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold">Random Location:</h3>
-          <p>
-            Latitude: {randomLocation.lat.toFixed(6)}, Longitude:{" "}
-            {randomLocation.lng.toFixed(6)}
-          </p>
-        </div>
-      )}
+      <main className="p-4">
+        <p
+          className={`mb-4 text-sm text-left md:text-center lg:text-center ${
+            isDarkMode ? "text-neutral-400" : "text-neutral-600"
+          }`}
+        >
+          {randomLocation && (
+            <div className="mb-4">
+              <p className="text-sm mb-2">
+                Lat: {randomLocation.lat.toFixed(6)}
+                <span className="mx-2"> | </span>
+                Lng: {randomLocation.lng.toFixed(6)}
+                <span className="ml-2">
+                  <a
+                    href={`https://www.google.com/maps?q=${randomLocation.lat},${randomLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    View on Google Maps
+                  </a>
+                </span>
+              </p>
+            </div>
+          )}
+        </p>
 
-      <div className="w-full h-[250px] mt-4 ">
-        <Map lat={randomLocation?.lat || 0} lng={randomLocation?.lng || 0} />
-      </div>
+        <div className="md:hidden mb-4">
+          <button
+            onClick={generateRandomLocation}
+            className={`w-full px-4 py-2 rounded-md ${
+              isDarkMode
+                ? "bg-blue-500 text-white hover:bg-blue-600"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+          >
+            Reload Random Location
+          </button>
+        </div>
+
+        <div className="h-[calc(100vh-220px)]">
+          <Map
+            lat={randomLocation?.lat || 0}
+            lng={randomLocation?.lng || 0}
+            isDarkMode={isDarkMode}
+          />
+        </div>
+        <p
+          className={`m-4 text-xs ${
+            isDarkMode ? "text-neutral-400" : "text-neutral-600"
+          }`}
+        >
+          This app generates a random location within the specified radius from
+          your current location or a manually entered location.
+        </p>
+      </main>
     </div>
   );
 };
